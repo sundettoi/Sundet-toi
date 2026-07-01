@@ -4,8 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Сүндет-той</title>
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   html, body {
     width: 100%;
@@ -48,18 +53,23 @@
     transform: translateX(-50%);
     width: 70px;
     height: 70px;
+    z-index: 5;
   }
 </style>
 </head>
 
 <body>
+
   <div class="wrap">
     <img src="iPhone.png" alt="">
 
+    <!-- музыка -->
     <audio id="music" src="music.mp3" preload="auto" loop></audio>
 
+    <!-- кнопка музыки -->
     <button class="music-btn" id="musicBtn"></button>
 
+    <!-- карта -->
     <a class="map-btn"
        href="https://2gis.kz/shymkent/firm/70000001054205583"
        target="_blank">
@@ -70,13 +80,36 @@
   const music = document.getElementById('music');
   const musicBtn = document.getElementById('musicBtn');
 
-  musicBtn.addEventListener('click', function () {
+  let isPlaying = false;
+
+  function playMusic() {
+    music.play();
+    isPlaying = true;
+  }
+
+  function pauseMusic() {
+    music.pause();
+    isPlaying = false;
+  }
+
+  // 🎵 первый клик по экрану запускает музыку
+  document.body.addEventListener('click', () => {
+    if (!isPlaying) {
+      playMusic();
+    }
+  }, { once: true });
+
+  // 🎵 кнопка play/pause
+  musicBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+
     if (music.paused) {
-      music.play();
+      playMusic();
     } else {
-      music.pause();
+      pauseMusic();
     }
   });
 </script>
+
 </body>
 </html>
