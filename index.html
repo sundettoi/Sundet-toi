@@ -61,10 +61,16 @@
 <body>
 
   <div class="wrap">
-    <img src="iPhone1.png" alt="">
+    <picture>
+      <source
+        type="image/webp"
+        srcset="iPhone1-480.webp 480w, iPhone1-960.webp 960w"
+        sizes="(max-width: 480px) 100vw, 480px">
+      <img src="iPhone1.png" width="1760" height="14024" alt="" fetchpriority="high" decoding="async">
+    </picture>
 
     <!-- музыка -->
-    <audio id="music" src="music.mp3" preload="auto" loop></audio>
+    <audio id="music" src="music.mp3" preload="none" loop></audio>
 
     <!-- кнопка музыки -->
     <button class="music-btn" id="musicBtn"></button>
@@ -83,8 +89,13 @@
   let isPlaying = false;
 
   function playMusic() {
-    music.play();
-    isPlaying = true;
+    music.play()
+      .then(() => {
+        isPlaying = true;
+      })
+      .catch(() => {
+        isPlaying = false;
+      });
   }
 
   function pauseMusic() {
